@@ -25,6 +25,7 @@ class FutureItem extends StatelessWidget {
           onTap: () => onClick(),
           child: Container(
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
               gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.center,
@@ -47,13 +48,13 @@ class FutureItem extends StatelessWidget {
                   _icon,
                   //color: Colors.green[600],
                   color : itemIconColor(),
-                  size: 60.0,
+                  size: 50.0,
                 ),
                 Text(
                   _text,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24.0,
+                    fontSize: 20.0,
                   ),
                 )
               ],

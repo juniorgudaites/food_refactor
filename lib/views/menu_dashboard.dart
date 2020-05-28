@@ -103,7 +103,7 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
         scale: _scaleAnimation,
         child: Material(
           animationDuration: duration,
-          borderRadius: BorderRadius.all(Radius.circular(40)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           elevation: 8,
           color: backgroundColor(),
           child: SingleChildScrollView(
@@ -118,6 +118,7 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
+
                       InkWell(
                         child: Icon(Icons.menu, color: Colors.white),
                         onTap: () {
@@ -137,7 +138,7 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
                   ),
                   SizedBox(height: 20),
                   Search(),
-                  SizedBox(height: 30),
+                  SizedBox(height: 50),
                   Center(
                     child: Image.asset(
                       'assets/logo.png',

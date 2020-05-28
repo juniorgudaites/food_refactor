@@ -5,7 +5,7 @@ import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/models/category.dart';
 import 'package:food_refactor/models/ingredient.dart';
 import 'package:food_refactor/models/recipe.dart';
-import 'package:food_refactor/views/dashboard.dart';
+import 'package:food_refactor/views/dashboard(deletar).dart';
 import 'package:food_refactor/views/menu_dashboard.dart';
 
 void main() {

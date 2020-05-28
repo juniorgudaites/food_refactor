@@ -12,7 +12,7 @@ class Search extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: secondColor(),width: 3.0),
+//        border: Border.all(color: secondColor(),width: 3.0),
         borderRadius: BorderRadius.circular(29.5),
       ),
       child: Padding(
