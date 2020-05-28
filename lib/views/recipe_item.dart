@@ -25,6 +25,7 @@ class RecipeItem extends StatelessWidget {
           debugPrint(recipe.toString());
         },
         child: Card(
+          color: listTileColor(),
           child: ListTile(
             title: Text(
               recipe.name,
@@ -38,6 +39,7 @@ class RecipeItem extends StatelessWidget {
                 fontSize: 16.0,
               ),
             ),
+            trailing: Image.asset(recipe.pathImage),
           ),
         ),
       ),

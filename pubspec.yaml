@@ -44,6 +44,9 @@ flutter_icons:
   ios: true
   image_path: assets/icon.png
 
+# Command for update icon flutter project
+# CMD = flutter pub pub run flutter_launcher_icons:main
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

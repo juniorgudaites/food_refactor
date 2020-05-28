@@ -9,32 +9,30 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: secondColor(),width: 3.0),
-          borderRadius: BorderRadius.circular(29.5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15.0),
-          child: TextField(
-            onSubmitted: (value) => _showSearch(context),
-            controller: _recipe,
-            decoration: InputDecoration(
-              hintText: 'Busque uma receita pelo nome',
-              icon: Icon(
-                Icons.search,
-                size: 40.0,
-                color: secondColor(),
-              ),
-              border: InputBorder.none,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: secondColor(),width: 3.0),
+        borderRadius: BorderRadius.circular(29.5),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 15.0),
+        child: TextField(
+          onSubmitted: (value) => _showSearch(context),
+          controller: _recipe,
+          decoration: InputDecoration(
+            hintText: 'Busque uma receita pelo nome',
+            icon: Icon(
+              Icons.search,
+              size: 40.0,
+              color: secondColor(),
             ),
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-            keyboardType: TextInputType.text,
+            border: InputBorder.none,
           ),
+          style: TextStyle(
+            fontSize: 20.0,
+          ),
+          keyboardType: TextInputType.text,
         ),
       ),
     );

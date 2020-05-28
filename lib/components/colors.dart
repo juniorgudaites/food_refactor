@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+Color backgroundColor(){
+  return Colors.brown[900];
+}
+
+Color backgroundColorMenu(){
+  return Color.fromARGB(255,27, 0, 0);
+}
 
 Color primaryColor(){
   return Colors.brown[900];
@@ -9,6 +16,18 @@ Color secondColor(){
   return Color.fromARGB(255,118, 182, 47);//Light Green
 }
 
+Color primaryGradientColor(){
+  return Colors.brown[600];
+}
+
 Color secondGradientColor(){
+  return Colors.brown[400];
+}
+
+Color listTileColor(){
   return Colors.brown[500];
+}
+
+Color itemIconColor(){
+  return Color.fromARGB(255,118, 182, 47);
 }

@@ -33,10 +33,13 @@ class _RecipesListState extends State<RecipesList> {
               break;
             case ConnectionState.done:
               final List<Recipe> recipes = snapshot.data;
-              return ListView.builder(
+              return ListView.separated(
                 itemBuilder: (context, index) {
                   final Recipe recipe = recipes[index];
                   return RecipeItem(recipe);
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(height: 16);
                 },
                 itemCount: recipes.length,
               );
