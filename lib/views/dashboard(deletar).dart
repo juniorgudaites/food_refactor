@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/components/gradient_appbar.dart';
-import 'package:food_refactor/views/category_list.dart';
-import 'package:food_refactor/views/favorite_list.dart';
-import 'package:food_refactor/views/recipe_list.dart';
+import 'package:food_refactor/views/category_list(deletar).dart';
+import 'package:food_refactor/views/favorite_list(deletar).dart';
+import 'package:food_refactor/views/recipe_list(Deletar).dart';
 import 'file:///D:/Google%20Drive/Anhembi%20Morumbi/TCC/food_refactor/lib/views/widgets/search_bar.dart';
 
 class Dashboard extends StatelessWidget {

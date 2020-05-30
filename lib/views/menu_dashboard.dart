@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/colors.dart';
-import 'package:food_refactor/views/category_list.dart';
-import 'package:food_refactor/views/favorite_list.dart';
-import 'package:food_refactor/views/recipe_list.dart';
+import 'package:food_refactor/views/category_list(deletar).dart';
+import 'package:food_refactor/views/favorite_list(deletar).dart';
+import 'package:food_refactor/views/list_screen.dart';
+import 'package:food_refactor/views/recipe_list(Deletar).dart';
 import 'package:food_refactor/views/widgets/menu.dart';
 import 'package:food_refactor/views/widgets/futureItem.dart';
 import 'package:food_refactor/views/widgets/search_bar.dart';
+
+import '../database/dao/categories_dao.dart';
+import '../database/dao/categories_dao.dart';
+import '../database/dao/recipes_dao.dart';
+import '../database/dao/recipes_dao.dart';
 
 class MenuDashboard extends StatefulWidget {
   @override
@@ -22,6 +28,9 @@ class _MenuDashboardState extends State<MenuDashboard>
   Animation<double> _scaleAnimation;
   Animation<double> _menuScaleAnimation;
   Animation<Offset> _slideAnimation;
+
+  RecipesDao _recipesDao = RecipesDao();
+  CategoriesDao _categoriesDao = CategoriesDao();
 
 
   @override
@@ -62,51 +71,51 @@ class _MenuDashboardState extends State<MenuDashboard>
         },
         child: Stack(
           children: <Widget>[
-            menu(context),
-            dashboard(context),
+            menu(context,_slideAnimation,_menuScaleAnimation),
+            _dashboard(context),
           ],
         ),
       ),
     );
   }
 
-  Widget menu(context) {
-    return SlideTransition(
-      position: _slideAnimation,
-      child: ScaleTransition(
-        scale: _menuScaleAnimation,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Dashboard",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Messages",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Utility Bills",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Funds Transfer",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Branches",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+//  Widget menu(context) {
+//    return SlideTransition(
+//      position: _slideAnimation,
+//      child: ScaleTransition(
+//        scale: _menuScaleAnimation,
+//        child: Padding(
+//          padding: const EdgeInsets.only(left: 16.0),
+//          child: Align(
+//            alignment: Alignment.centerLeft,
+//            child: Column(
+//              mainAxisSize: MainAxisSize.min,
+//              mainAxisAlignment: MainAxisAlignment.spaceAround,
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: <Widget>[
+//                Text("Dashboard",
+//                    style: TextStyle(color: Colors.white, fontSize: 22)),
+//                SizedBox(height: 10),
+//                Text("Messages",
+//                    style: TextStyle(color: Colors.white, fontSize: 22)),
+//                SizedBox(height: 10),
+//                Text("Utility Bills",
+//                    style: TextStyle(color: Colors.white, fontSize: 22)),
+//                SizedBox(height: 10),
+//                Text("Funds Transfer",
+//                    style: TextStyle(color: Colors.white, fontSize: 22)),
+//                SizedBox(height: 10),
+//                Text("Branches",
+//                    style: TextStyle(color: Colors.white, fontSize: 22)),
+//              ],
+//            ),
+//          ),
+//        ),
+//      ),
+//    );
+//  }
 
-  Widget dashboard(context) {
+  Widget _dashboard(context) {
     return AnimatedPositioned(
       duration: duration,
       top: 0,
@@ -170,22 +179,22 @@ class _MenuDashboardState extends State<MenuDashboard>
                         FutureItem(
                           Icons.book,
                           'Receitas',
-                          onClick: () => _showRecipesList(context),
+                          onClick: () => _showList(context,title: 'Receitas',list: _recipesDao.findAll()),
                         ),
                         FutureItem(
                           Icons.view_list,
                           'Categorias',
-                          onClick: () => _showCategoryList(context),
+                          onClick: () => _showList(context,title: 'Categorias', list: _categoriesDao.findAll()),
                         ),
                         FutureItem(
                           Icons.filter_list,
                           'Ingredientes',
-                          onClick: () => _showRecipesList(context),
+                          onClick: () => _showList(context,title:'Ingredientes', list: _recipesDao.findAll()),
                         ),
                         FutureItem(
                           Icons.favorite,
                           'Favoritos',
-                          onClick: () => _showFavoriteList(context),
+                          onClick: () => _showList(context,title: 'Favoritos', list: _recipesDao.searchFavorite()),
                         ),
                       ],
                     ),
@@ -200,27 +209,12 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-  void _showRecipesList(BuildContext context) {
+  void _showList(BuildContext context,{Future<List> list,String title}) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => RecipesList(),
+        builder: (context) => ListScreen(title: title, list: list,),
       ),
     );
   }
 
-  void _showCategoryList(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CategoryList(),
-      ),
-    );
-  }
-
-  void _showFavoriteList(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => FavoriteList(),
-      ),
-    );
-  }
 }

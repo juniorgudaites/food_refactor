@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 Widget menu(context,_slideAnimation,_menuScaleAnimation) {
   return SlideTransition(
     position: _slideAnimation,
@@ -16,7 +14,7 @@ Widget menu(context,_slideAnimation,_menuScaleAnimation) {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Dashboard",
+              Text("Dashboard 2.0",
                   style: TextStyle(color: Colors.white, fontSize: 22)),
               SizedBox(height: 10),
               Text("Messages",

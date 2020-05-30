@@ -2,20 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/centered_message.dart';
 import 'package:food_refactor/components/colors.dart';
-import 'package:food_refactor/components/gradient_appbar.dart';
 import 'package:food_refactor/components/progress.dart';
-import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/models/recipe.dart';
 import 'package:food_refactor/views/recipe_details.dart';
-import 'package:food_refactor/views/recipe_item(deletar).dart';
 
-class RecipesList extends StatefulWidget {
+import 'widgets/menu.dart';
+
+
+class ListScreen extends StatefulWidget {
+  Future<List> list;
+  String title;
+
+  ListScreen({@required this.title, @required this.list});
+
   @override
-  _RecipesListState createState() => _RecipesListState();
+  _ListState createState() => _ListState();
 }
 
-class _RecipesListState extends State<RecipesList> with SingleTickerProviderStateMixin {
-  final RecipesDao _dao = new RecipesDao();
+class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
 
   bool isCollapsed = true;
   double screenWidth, screenHeight;
@@ -24,7 +28,6 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
   Animation<double> _scaleAnimation;
   Animation<double> _menuScaleAnimation;
   Animation<Offset> _slideAnimation;
-
 
   @override
   void initState() {
@@ -66,45 +69,9 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
         },
         child: Stack(
           children: <Widget>[
-            menu(context),
+            menu(context,_slideAnimation,_menuScaleAnimation),
             _screen(context),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget menu(context) {
-    return SlideTransition(
-      position: _slideAnimation,
-      child: ScaleTransition(
-        scale: _menuScaleAnimation,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Dashboard",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Messages",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Utility Bills",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Funds Transfer",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Branches",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-              ],
-            ),
-          ),
         ),
       ),
     );
@@ -149,7 +116,7 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
                           });
                         },
                       ),
-                      Text("Receitas",
+                      Text(widget.title,
                           style: TextStyle(fontSize: 24, color: Colors.white)),
                       Icon(Icons.feedback, color: Colors.white),
                     ],
@@ -171,7 +138,7 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
   Widget _builder() {
     return FutureBuilder<List<Recipe>>(
       initialData: List(),
-      future: _dao.findAll(),
+      future: widget.list,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -187,7 +154,6 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
               itemBuilder: (context, index) {
                 final Recipe recipe = recipes[index];
                 return _card(context, recipe);
-//                return RecipeItem(recipe);
               },
               separatorBuilder: (context, index) {
                 return Divider(height: 16);
@@ -209,12 +175,9 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                //builder: (context) => Text(recipe.toString()),
                 builder: (context) => RecipeDetails(recipe),
               ),
             );
-            debugPrint("Objeto: ${recipe.hashCode}");
-            debugPrint(recipe.toString());
           },
           child: Card(
             color: listTileColor(),
@@ -244,40 +207,4 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
       ),
     );
   }
-
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: gradientAppBar('Receitas'),
-//      body: FutureBuilder<List<Recipe>>(
-//        initialData: List(),
-//        future: _dao.findAll(),
-//        builder: (context, snapshot) {
-//          switch (snapshot.connectionState) {
-//            case ConnectionState.none:
-//              break;
-//            case ConnectionState.waiting:
-//              return Progress();
-//              break;
-//            case ConnectionState.active:
-//              break;
-//            case ConnectionState.done:
-//              final List<Recipe> recipes = snapshot.data;
-//              return ListView.separated(
-//                itemBuilder: (context, index) {
-//                  final Recipe recipe = recipes[index];
-//                  return RecipeItem(recipe);
-//                },
-//                separatorBuilder: (context, index) {
-//                  return Divider(height: 16);
-//                },
-//                itemCount: recipes.length,
-//              );
-//              break;
-//          }
-//          return CenteredMessage('Unknown error');
-//        },
-//      ),
-//    );
-//  }
 }
