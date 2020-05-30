@@ -23,60 +23,11 @@ class _RecipeDetailsState extends State<RecipeDetails> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-                child: Image.asset(
-              widget.recipe.pathImage,
-              height: 200,
-            )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 16.0),
-            child: Text(
-              "Ingredientes:",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: primaryColor(),
-                fontSize: 24.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
-            child: Text(
-              '${widget.recipe.listIngredients}',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Color.fromARGB(255, 73, 110, 35),
-                fontSize: 20.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 16.0),
-            child: Text(
-              "Modo de Preparo:",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: primaryColor(),
-                fontSize: 24.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
-            child: Text(
-              '${widget.recipe.preparationMode}',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Color.fromARGB(255, 73, 110, 35),
-                fontSize: 20.0,
-              ),
-            ),
-          ),
+          _image(),
+          _ingredientsTitle(),
+          _ingredientsText(),
+          _preparationModeTitle(),
+          _preparationModeText(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -89,6 +40,75 @@ class _RecipeDetailsState extends State<RecipeDetails> {
             });
             debugPrint(widget.recipe.toString());
           }),
+    );
+  }
+
+  Widget _image() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Center(
+          child: Image.asset(
+        widget.recipe.pathImage,
+        height: 200,
+      )),
+    );
+  }
+
+  Widget _ingredientsTitle() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, top: 16.0),
+      child: Text(
+        "Ingredientes:",
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: primaryColor(),
+          fontSize: 24.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _ingredientsText() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
+      child: Text(
+        '${widget.recipe.listIngredients}',
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          color: Color.fromARGB(255, 73, 110, 35),
+          fontSize: 20.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _preparationModeTitle(){
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, top: 16.0),
+      child: Text(
+        "Modo de Preparo:",
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: primaryColor(),
+          fontSize: 24.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _preparationModeText(){
+    return  Padding(
+      padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
+      child: Text(
+        '${widget.recipe.preparationMode}',
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          color: Color.fromARGB(255, 73, 110, 35),
+          fontSize: 20.0,
+        ),
+      ),
     );
   }
 

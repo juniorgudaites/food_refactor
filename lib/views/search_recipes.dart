@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_refactor/components/centered_message.dart';
 import 'package:food_refactor/components/gradient_appbar.dart';
 import 'package:food_refactor/models/recipe.dart';
-import 'package:food_refactor/views/recipe_item.dart';
+import 'package:food_refactor/views/recipe_item(deletar).dart';
 
 class RecipesListSearch extends StatefulWidget {
   final Future<List<Recipe>> searchRecipe;

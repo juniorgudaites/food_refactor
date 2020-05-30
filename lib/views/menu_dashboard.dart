@@ -3,17 +3,17 @@ import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/views/category_list.dart';
 import 'package:food_refactor/views/favorite_list.dart';
 import 'package:food_refactor/views/recipe_list.dart';
+import 'package:food_refactor/views/widgets/menu.dart';
 import 'package:food_refactor/views/widgets/futureItem.dart';
 import 'package:food_refactor/views/widgets/search_bar.dart';
-
-
 
 class MenuDashboard extends StatefulWidget {
   @override
   _MenuDashboardState createState() => _MenuDashboardState();
 }
 
-class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProviderStateMixin {
+class _MenuDashboardState extends State<MenuDashboard>
+    with SingleTickerProviderStateMixin {
 
   bool isCollapsed = true;
   double screenWidth, screenHeight;
@@ -23,13 +23,16 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
   Animation<double> _menuScaleAnimation;
   Animation<Offset> _slideAnimation;
 
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
-    _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
-    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
+    _menuScaleAnimation =
+        Tween<double>(begin: 0.5, end: 1).animate(_controller);
+    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+        .animate(_controller);
   }
 
   @override
@@ -50,6 +53,12 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
         onTap: () {
           // call this method here to hide soft keyboard
           FocusScope.of(context).requestFocus(FocusNode());
+          setState(() {
+            if (!isCollapsed) {
+              _controller.reverse();
+              isCollapsed = !isCollapsed;
+            }
+          });
         },
         child: Stack(
           children: <Widget>[
@@ -75,15 +84,20 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Dashboard", style: TextStyle(color: Colors.white, fontSize: 22)),
+                Text("Dashboard",
+                    style: TextStyle(color: Colors.white, fontSize: 22)),
                 SizedBox(height: 10),
-                Text("Messages", style: TextStyle(color: Colors.white, fontSize: 22)),
+                Text("Messages",
+                    style: TextStyle(color: Colors.white, fontSize: 22)),
                 SizedBox(height: 10),
-                Text("Utility Bills", style: TextStyle(color: Colors.white, fontSize: 22)),
+                Text("Utility Bills",
+                    style: TextStyle(color: Colors.white, fontSize: 22)),
                 SizedBox(height: 10),
-                Text("Funds Transfer", style: TextStyle(color: Colors.white, fontSize: 22)),
+                Text("Funds Transfer",
+                    style: TextStyle(color: Colors.white, fontSize: 22)),
                 SizedBox(height: 10),
-                Text("Branches", style: TextStyle(color: Colors.white, fontSize: 22)),
+                Text("Branches",
+                    style: TextStyle(color: Colors.white, fontSize: 22)),
               ],
             ),
           ),
@@ -118,7 +132,6 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-
                       InkWell(
                         child: Icon(Icons.menu, color: Colors.white),
                         onTap: () {
@@ -132,7 +145,8 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
                           });
                         },
                       ),
-                      Text("Food Refactor", style: TextStyle(fontSize: 24, color: Colors.white)),
+                      Text("Food Refactor",
+                          style: TextStyle(fontSize: 24, color: Colors.white)),
                       Icon(Icons.feedback, color: Colors.white),
                     ],
                   ),
@@ -184,7 +198,6 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
         ),
       ),
     );
-
   }
 
   void _showRecipesList(BuildContext context) {
@@ -210,5 +223,4 @@ class _MenuDashboardState extends State<MenuDashboard> with SingleTickerProvider
       ),
     );
   }
-
 }

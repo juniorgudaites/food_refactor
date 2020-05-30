@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:food_refactor/database/dao/insert/categories_insert.dart';
+import 'package:food_refactor/database/dao/insert/recipes_insert.dart';
+import 'package:food_refactor/models/ingredient.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:food_refactor/database/app_database.dart';
 import 'package:food_refactor/models/recipe.dart';
@@ -15,6 +17,17 @@ class RecipesDao {
       '$_favorite INTEGER, '
       '$_pathImage TEXT)';
 
+  static const String insertRecipeSql =
+      'INSERT INTO recipes(id,name,description,ingredients,preparationMode,category, favorite, pathImage) VALUES('
+      '1,'
+      'Bolo de Chocolate,'
+      'Bolo de Chocolate com cobertura de chocolate,'
+      'Farinha, 3 xicaras,'
+      'Asse a 180c,'
+      'bolos,'
+      '0,'
+      'assets/receitas/bolos/bolo_de_chocolate.jpg)';
+
   //'$_idCategoryRecipe INTEGER CONSTRAINT $_idCategoryRecipe REFERENCES $_tableCategory($_idCategory))';
 
   static const String _tableRecipes = 'recipes';
@@ -28,6 +41,33 @@ class RecipesDao {
   static const String _pathImage = '_pathImage';
 
   String getNameTableRecipe() => _tableRecipes;
+
+  insert() {
+    save(RecipesInsert.boloChocolate);
+    save(RecipesInsert.boloCenoura);
+    save(RecipesInsert.brigadeiro);
+  }
+
+  static String insertTable(Recipe recipe){
+     String sql = 'INSERT INTO $_tableRecipes('
+        '$_id,'
+        '$_name,'
+        '$_description,'
+        '$_ingredients,'
+        '$_preparationMode,'
+        '$_category,'
+        '$_favorite, '
+        '$_pathImage) VALUES('
+        '${recipe.id},'
+        '${recipe.name},'
+        '${recipe.description},'
+        '${recipe.listIngredients.toString()},'
+        '${recipe.preparationMode},'
+        '${recipe.category},'
+        '0,'
+        '${recipe.pathImage})';
+    return sql;
+  }
 
   // INSERE OBJETO RECIPE NO DATABASE
   Future<int> save(Recipe recipe) async {
@@ -148,5 +188,4 @@ class RecipesDao {
     map[_pathImage] = recipe.pathImage;
     return map;
   }
-
 }

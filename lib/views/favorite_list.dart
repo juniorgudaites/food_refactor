@@ -4,7 +4,7 @@ import 'package:food_refactor/components/gradient_appbar.dart';
 import 'package:food_refactor/components/progress.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/models/recipe.dart';
-import 'package:food_refactor/views/recipe_item.dart';
+import 'package:food_refactor/views/recipe_item(deletar).dart';
 
 class FavoriteList extends StatefulWidget {
   @override

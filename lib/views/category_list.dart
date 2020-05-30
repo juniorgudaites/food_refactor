@@ -8,7 +8,7 @@ import 'package:food_refactor/models/category.dart';
 import 'package:food_refactor/components/centered_message.dart';
 import 'package:food_refactor/components/progress.dart';
 import 'package:food_refactor/models/recipe.dart';
-import 'package:food_refactor/views/recipe_item.dart';
+import 'package:food_refactor/views/recipe_item(deletar).dart';
 
 class CategoryList extends StatefulWidget {
   @override

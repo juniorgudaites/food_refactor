@@ -1,3 +1,4 @@
+import 'package:food_refactor/database/dao/insert/categories_insert.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/models/category.dart';
 import 'package:food_refactor/models/recipe.dart';
@@ -20,6 +21,11 @@ class CategoriesDao {
   static const String _idRecipe = 'idRecipe';
 
   String getNameTableCategory() => _tableCategory;
+
+  insert(){
+    save(CategoriesInsert.bolos);
+    save(CategoriesInsert.doces);
+  }
 
   Future<int> save(Category category) async {
     final Database db = await getDatabase();

@@ -25,7 +25,15 @@ Color secondGradientColor(){
 }
 
 Color listTileColor(){
-  return Colors.brown[500];
+  return Colors.white;
+}
+
+Color cardTextColor(){
+  return Colors.brown[900];
+}
+
+Color cardBackgroundColor(){
+  return Colors.white;
 }
 
 Color itemIconColor(){
