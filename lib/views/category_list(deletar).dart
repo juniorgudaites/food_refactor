@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:food_refactor/components/gradient_appbar.dart';
 import 'package:food_refactor/database/dao/categories_dao.dart';
-import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/models/category.dart';
 import 'package:food_refactor/components/centered_message.dart';
 import 'package:food_refactor/components/progress.dart';
@@ -85,7 +84,6 @@ class CategoryItem extends StatelessWidget {
 }
 
 class CategoryDetails extends StatelessWidget {
-  final RecipesDao _dao = new RecipesDao();
   final Category category;
 
   CategoryDetails(this.category);
@@ -98,7 +96,7 @@ class CategoryDetails extends StatelessWidget {
       ),
       body: FutureBuilder<List<Recipe>>(
         initialData: List(),
-        future: _dao.searchCategoryById(category.id),
+//        future: _dao.searchCategoryById(category.id),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:

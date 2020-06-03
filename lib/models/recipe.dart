@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_refactor/models/category.dart';
-import 'package:food_refactor/models/ingredient.dart';
+
 
 class Recipe{
   final int id;

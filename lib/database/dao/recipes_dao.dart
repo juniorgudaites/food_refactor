@@ -1,6 +1,4 @@
-import 'package:food_refactor/database/dao/insert/categories_insert.dart';
 import 'package:food_refactor/database/dao/insert/recipes_insert.dart';
-import 'package:food_refactor/models/ingredient.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:food_refactor/database/app_database.dart';
 import 'package:food_refactor/models/recipe.dart';
@@ -46,6 +44,9 @@ class RecipesDao {
     save(RecipesInsert.boloChocolate);
     save(RecipesInsert.boloCenoura);
     save(RecipesInsert.brigadeiro);
+    save(RecipesInsert.peDeMoleque);
+    save(RecipesInsert.lasanha);
+    save(RecipesInsert.pizza);
   }
 
   static String insertTable(Recipe recipe){
@@ -149,10 +150,10 @@ class RecipesDao {
   }
 
   // REALIZA BUSCA DE CATEGORIA NO DB - DELETER FUTURAMENTE
-  Future<List<Recipe>> searchCategoryById(int id) async {
+  Future<List<Recipe>> searchCategoryByName(String category) async {
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> result =
-        await db.query(_tableRecipes, where: '$_category = $id');
+        await db.query(_tableRecipes, where: "$_category LIKE '%$category%'");
     List<Recipe> recipes = _toList(result);
     return recipes;
   }

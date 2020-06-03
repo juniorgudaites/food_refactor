@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/centered_message.dart';
 import 'package:food_refactor/components/colors.dart';
-import 'package:food_refactor/components/gradient_appbar.dart';
 import 'package:food_refactor/components/progress.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/models/recipe.dart';
 import 'package:food_refactor/views/recipe_details.dart';
-import 'package:food_refactor/views/recipe_item(deletar).dart';
+
 
 class RecipesList extends StatefulWidget {
   @override

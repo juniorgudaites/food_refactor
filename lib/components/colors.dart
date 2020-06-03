@@ -4,6 +4,10 @@ Color backgroundColor(){
   return Colors.brown[900];
 }
 
+Color alertDialogBackgroundColor(){
+  return Color.fromARGB(255, 73, 110, 35);
+}
+
 Color backgroundColorMenu(){
   return Color.fromARGB(255,27, 0, 0);
 }

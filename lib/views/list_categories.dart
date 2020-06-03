@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:food_refactor/components/centered_message.dart';
 import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/components/progress.dart';
-import 'package:food_refactor/models/recipe.dart';
-import 'package:food_refactor/views/recipe_details.dart';
+import 'package:food_refactor/database/dao/recipes_dao.dart';
+import 'package:food_refactor/models/category.dart';
+import 'package:food_refactor/views/list_screen.dart';
 
 import 'widgets/menu.dart';
 
-
-class ListScreen extends StatefulWidget {
+class ListCategories extends StatefulWidget {
   Future<List> list;
   String title;
 
-  ListScreen({@required this.title, @required this.list});
+  ListCategories({@required this.title, @required this.list});
 
   @override
-  _ListState createState() => _ListState();
+  _ListCategoriesState createState() => _ListCategoriesState();
 }
 
-class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
-
+class _ListCategoriesState extends State<ListCategories>
+    with SingleTickerProviderStateMixin {
   bool isCollapsed = true;
   double screenWidth, screenHeight;
   final Duration duration = const Duration(milliseconds: 300);
@@ -48,9 +48,7 @@ class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     screenHeight = size.height;
     screenWidth = size.width;
 
@@ -69,7 +67,7 @@ class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
         },
         child: Stack(
           children: <Widget>[
-            menu(context,_slideAnimation,_menuScaleAnimation),
+            menu(context, _slideAnimation, _menuScaleAnimation),
             _screen(context),
           ],
         ),
@@ -111,7 +109,6 @@ class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
                               _controller.forward();
                             else
                               _controller.reverse();
-
                             isCollapsed = !isCollapsed;
                           });
                         },
@@ -124,7 +121,7 @@ class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
                   Container(
                     height: double.maxFinite,
                     child: _builder(),
-                    ),
+                  ),
                   SizedBox(height: 20),
                 ],
               ),
@@ -136,7 +133,7 @@ class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
   }
 
   Widget _builder() {
-    return FutureBuilder<List<Recipe>>(
+    return FutureBuilder<List<Category>>(
       initialData: List(),
       future: widget.list,
       builder: (context, snapshot) {
@@ -149,16 +146,16 @@ class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
           case ConnectionState.active:
             break;
           case ConnectionState.done:
-            final List<Recipe> recipes = snapshot.data;
+            final List<Category> categories = snapshot.data;
             return ListView.separated(
               itemBuilder: (context, index) {
-                final Recipe recipe = recipes[index];
-                return _card(context, recipe);
+                final Category category = categories[index];
+                return _card(context, category);
               },
               separatorBuilder: (context, index) {
                 return Divider(height: 16);
               },
-              itemCount: recipes.length,
+              itemCount: categories.length,
             );
             break;
         }
@@ -167,7 +164,8 @@ class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _card(context,recipe){
+  Widget _card(context, Category category) {
+    RecipesDao _dao = RecipesDao();
     return SizedBox(
       height: 80,
       child: Material(
@@ -175,34 +173,23 @@ class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => RecipeDetails(recipe),
+                builder: (context) => ListScreen(
+                  title: category.name,
+                  list: _dao.searchCategoryByName(category.name),
+                ),
               ),
             );
           },
           child: Card(
-            color: listTileColor(),
-            child: ListTile(
-              title: Text(
-                recipe.name,
-                style: TextStyle(
-                  fontSize: 24.0,
-                ),
-              ),
-              subtitle: SizedBox(
-                height: 40,
-                child: Text(
-                  recipe.description,
+              color: listTileColor(),
+              child: ListTile(
+                title: Text(
+                  category.name,
                   style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 28.0,
                   ),
                 ),
-              ),
-              trailing: Padding(
-                padding: const EdgeInsets.only(bottom:8.0),
-                child: Image.asset(recipe.pathImage),
-              ),
-            ),
-          ),
+              )),
         ),
       ),
     );

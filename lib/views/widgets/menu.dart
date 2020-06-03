@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:food_refactor/components/colors.dart';
+import 'package:food_refactor/database/dao/categories_dao.dart';
+import 'package:food_refactor/database/dao/recipes_dao.dart';
+import 'package:food_refactor/views/list_screen.dart';
 
-Widget menu(context,_slideAnimation,_menuScaleAnimation) {
+Widget menu(context, _slideAnimation, _menuScaleAnimation) {
+  RecipesDao _recipesDao = RecipesDao();
+  CategoriesDao _categoriesDao = CategoriesDao();
+
   return SlideTransition(
     position: _slideAnimation,
     child: ScaleTransition(
@@ -14,23 +21,67 @@ Widget menu(context,_slideAnimation,_menuScaleAnimation) {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Dashboard 2.0",
-                  style: TextStyle(color: Colors.white, fontSize: 22)),
+              menuItem(
+                text: 'Receitas',
+                icon: Icons.book,
+                onClick: () => _showList(context,
+                    title: 'Receitas', list: _recipesDao.findAll()),
+              ),
               SizedBox(height: 10),
-              Text("Messages",
-                  style: TextStyle(color: Colors.white, fontSize: 22)),
+              menuItem(
+                text: 'Categorias',
+                icon: Icons.view_list,
+                onClick: () => _showList(context,
+                    title: 'Categorias', list: _categoriesDao.findAll()),
+              ),
               SizedBox(height: 10),
-              Text("Utility Bills",
-                  style: TextStyle(color: Colors.white, fontSize: 22)),
+              menuItem(
+                text: 'Ingredients',
+                icon: Icons.filter_list,
+                onClick: () => _showList(context,
+                    title: 'Ingredientes', list: _recipesDao.findAll()),
+              ),
               SizedBox(height: 10),
-              Text("Funds Transfer",
-                  style: TextStyle(color: Colors.white, fontSize: 22)),
-              SizedBox(height: 10),
-              Text("Branches",
-                  style: TextStyle(color: Colors.white, fontSize: 22)),
+              menuItem(
+                text: 'Favoritos',
+                icon: Icons.favorite,
+                onClick: () => _showList(context,
+                    title: 'Favoritos', list: _recipesDao.searchFavorite()),
+              ),
             ],
           ),
         ),
+      ),
+    ),
+  );
+}
+
+void _showList(BuildContext context, {Future<List> list, String title}) {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => ListScreen(
+        title: title,
+
+        list: list,
+      ),
+    ),
+  );
+}
+
+Widget menuItem({String text, IconData icon, Function onClick}) {
+  return InkWell(
+    onTap: () => onClick(),
+    child: Container(
+      child: Row(
+        children: <Widget>[
+          Icon(
+            icon,
+            color: secondColor(),
+            size: 30,
+          ),
+          SizedBox(width: 12),
+          Text(text, style: TextStyle(color: Colors.white, fontSize: 28)),
+        ],
       ),
     ),
   );

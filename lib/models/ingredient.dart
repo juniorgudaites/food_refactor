@@ -11,6 +11,6 @@ class Ingredient {
 
   @override
   String toString() {
-    return 'Ingredient{id: $id, name: $name, quantity: $quantity, listRecipes: $listRecipes}';
+    return '$name: $quantity';
   }
 }

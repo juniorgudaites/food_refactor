@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/colors.dart';
-import 'package:food_refactor/views/category_list(deletar).dart';
-import 'package:food_refactor/views/favorite_list(deletar).dart';
+import 'package:food_refactor/database/dao/categories_dao.dart';
+import 'package:food_refactor/database/dao/recipes_dao.dart';
+import 'package:food_refactor/views/list_categories.dart';
 import 'package:food_refactor/views/list_screen.dart';
-import 'package:food_refactor/views/recipe_list(Deletar).dart';
 import 'package:food_refactor/views/widgets/menu.dart';
 import 'package:food_refactor/views/widgets/futureItem.dart';
 import 'package:food_refactor/views/widgets/search_bar.dart';
 
-import '../database/dao/categories_dao.dart';
-import '../database/dao/categories_dao.dart';
-import '../database/dao/recipes_dao.dart';
-import '../database/dao/recipes_dao.dart';
+
 
 class MenuDashboard extends StatefulWidget {
   @override
@@ -116,7 +113,7 @@ class _MenuDashboardState extends State<MenuDashboard>
 //  }
 
   Widget _dashboard(context) {
-    return AnimatedPositioned(
+   return AnimatedPositioned(
       duration: duration,
       top: 0,
       bottom: 0,
@@ -133,45 +130,53 @@ class _MenuDashboardState extends State<MenuDashboard>
             scrollDirection: Axis.vertical,
             physics: ClampingScrollPhysics(),
             child: Container(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 48),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      InkWell(
-                        child: Icon(Icons.menu, color: Colors.white),
-                        onTap: () {
-                          setState(() {
-                            if (isCollapsed)
-                              _controller.forward();
-                            else
-                              _controller.reverse();
-
-                            isCollapsed = !isCollapsed;
-                          });
-                        },
-                      ),
-                      Text("Food Refactor",
-                          style: TextStyle(fontSize: 24, color: Colors.white)),
-                      Icon(Icons.feedback, color: Colors.white),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Search(),
-                  SizedBox(height: 50),
-                  Center(
-                    child: Image.asset(
-                      'assets/logo.png',
-                      width: 330,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16,right: 16, top:48),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        InkWell(
+                          child: Icon(Icons.menu, color: Colors.white),
+                          onTap: () {
+                            setState(() {
+                              if (isCollapsed)
+                                _controller.forward();
+                              else
+                                _controller.reverse();
+                              isCollapsed = !isCollapsed;
+                            });
+                          },
+                        ),
+                        Text("Food Refactor",
+                            style: TextStyle(fontSize: 24, color: Colors.white)),
+                        Icon(Icons.feedback, color: Colors.white),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: screenHeight * 0.02),
+                  Container(
+                      padding: EdgeInsets.only(left: 16,right: 16),
+                      child: Search()),
+                  SizedBox(height: 60),
+                  Center(
+                    child: Container(
+                      width: screenWidth,
+                      padding: EdgeInsets.only(left: 20,right: 20),
+                      child: Image.asset(
+                        'assets/logo.png',
+                        width: 330,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
                   Container(
                     height: 130,
                     child: ListView(
+                      padding: EdgeInsets.only(left: 15, right: 15),
                       controller: PageController(viewportFraction: 0.5),
                       scrollDirection: Axis.horizontal,
 //                      pageSnapping: true,
@@ -184,7 +189,7 @@ class _MenuDashboardState extends State<MenuDashboard>
                         FutureItem(
                           Icons.view_list,
                           'Categorias',
-                          onClick: () => _showList(context,title: 'Categorias', list: _categoriesDao.findAll()),
+                          onClick: () => _showCategoriesList(context,title: 'Categorias', list: _categoriesDao.findAll()),
                         ),
                         FutureItem(
                           Icons.filter_list,
@@ -199,12 +204,19 @@ class _MenuDashboardState extends State<MenuDashboard>
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showCategoriesList(BuildContext context,{Future<List> list,String title}){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ListCategories(title: title, list: list,),
       ),
     );
   }

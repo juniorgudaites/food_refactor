@@ -62,6 +62,7 @@ flutter:
   assets:
   - assets/
   - assets/receitas/bolos/
+  - assets/receitas/massas/
   - assets/receitas/doces/
 
   # An image asset can refer to one or more resolution-specific "variants", see

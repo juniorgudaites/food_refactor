@@ -4,9 +4,10 @@ class Category{
   final int id;
   final String name;
   final int idRecipe;
+  final String pathImage;
 
 
-  Category({this.id, @required this.name,  this.idRecipe});
+  Category({this.id, @required this.name,  this.idRecipe, this.pathImage});
 
   @override
   String toString() {
