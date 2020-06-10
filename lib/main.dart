@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/database/dao/categories_dao.dart';
+import 'package:food_refactor/database/dao/ingredients_dao.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/views/menu_dashboard.dart';
 
@@ -9,14 +10,17 @@ void main() {
 }
 
 class FoodRefactor extends StatelessWidget {
+
   RecipesDao recipesDao = RecipesDao();
   CategoriesDao categoriesDao = CategoriesDao();
+  IngredientsDao ingredientsDao = IngredientsDao();
 
   @override
   Widget build(BuildContext context) {
 
     recipesDao.insert();
     categoriesDao.insert();
+    ingredientsDao.insert();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -29,7 +33,6 @@ class FoodRefactor extends StatelessWidget {
         ),
       ),
       home: MenuDashboard(),
-//      home: Dashboard(),
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/database/dao/categories_dao.dart';
+import 'package:food_refactor/database/dao/ingredients_dao.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/views/list_categories.dart';
-import 'package:food_refactor/views/list_screen.dart';
+import 'package:food_refactor/views/list_ingredients.dart';
+import 'package:food_refactor/views/list_ingredients_old.dart';
+import 'package:food_refactor/views/list_recipes.dart';
 import 'package:food_refactor/views/widgets/menu.dart';
 import 'package:food_refactor/views/widgets/futureItem.dart';
 import 'package:food_refactor/views/widgets/search_bar.dart';
@@ -28,6 +31,7 @@ class _MenuDashboardState extends State<MenuDashboard>
 
   RecipesDao _recipesDao = RecipesDao();
   CategoriesDao _categoriesDao = CategoriesDao();
+  IngredientsDao _ingredientsDao = IngredientsDao();
 
 
   @override
@@ -75,42 +79,6 @@ class _MenuDashboardState extends State<MenuDashboard>
       ),
     );
   }
-
-//  Widget menu(context) {
-//    return SlideTransition(
-//      position: _slideAnimation,
-//      child: ScaleTransition(
-//        scale: _menuScaleAnimation,
-//        child: Padding(
-//          padding: const EdgeInsets.only(left: 16.0),
-//          child: Align(
-//            alignment: Alignment.centerLeft,
-//            child: Column(
-//              mainAxisSize: MainAxisSize.min,
-//              mainAxisAlignment: MainAxisAlignment.spaceAround,
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
-//                Text("Dashboard",
-//                    style: TextStyle(color: Colors.white, fontSize: 22)),
-//                SizedBox(height: 10),
-//                Text("Messages",
-//                    style: TextStyle(color: Colors.white, fontSize: 22)),
-//                SizedBox(height: 10),
-//                Text("Utility Bills",
-//                    style: TextStyle(color: Colors.white, fontSize: 22)),
-//                SizedBox(height: 10),
-//                Text("Funds Transfer",
-//                    style: TextStyle(color: Colors.white, fontSize: 22)),
-//                SizedBox(height: 10),
-//                Text("Branches",
-//                    style: TextStyle(color: Colors.white, fontSize: 22)),
-//              ],
-//            ),
-//          ),
-//        ),
-//      ),
-//    );
-//  }
 
   Widget _dashboard(context) {
    return AnimatedPositioned(
@@ -194,7 +162,7 @@ class _MenuDashboardState extends State<MenuDashboard>
                         FutureItem(
                           Icons.filter_list,
                           'Ingredientes',
-                          onClick: () => _showList(context,title:'Ingredientes', list: _recipesDao.findAll()),
+                          onClick: () => _showIngredientsList(context,title:'Ingredientes', list: _ingredientsDao.findAll()),
                         ),
                         FutureItem(
                           Icons.favorite,
@@ -221,10 +189,18 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
+  void _showIngredientsList(BuildContext context,{Future<List> list,String title}){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ListIngredients(title: title, list: list,),
+      ),
+    );
+  }
+
   void _showList(BuildContext context,{Future<List> list,String title}) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ListScreen(title: title, list: list,),
+        builder: (context) => ListRecipes(title: title, list: list,),
       ),
     );
   }

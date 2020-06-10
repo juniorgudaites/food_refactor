@@ -5,7 +5,7 @@ import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/components/progress.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/models/category.dart';
-import 'package:food_refactor/views/list_screen.dart';
+import 'package:food_refactor/views/list_recipes.dart';
 
 import 'widgets/menu.dart';
 
@@ -164,7 +164,7 @@ class _ListCategoriesState extends State<ListCategories>
     );
   }
 
-  Widget _card(context, Category category) {
+  Widget _card(context, category) {
     RecipesDao _dao = RecipesDao();
     return SizedBox(
       height: 80,
@@ -173,7 +173,7 @@ class _ListCategoriesState extends State<ListCategories>
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ListScreen(
+                builder: (context) => ListRecipes(
                   title: category.name,
                   list: _dao.searchCategoryByName(category.name),
                 ),
@@ -181,15 +181,17 @@ class _ListCategoriesState extends State<ListCategories>
             );
           },
           child: Card(
-              color: listTileColor(),
-              child: ListTile(
-                title: Text(
-                  category.name,
-                  style: TextStyle(
-                    fontSize: 28.0,
-                  ),
+            color: listTileColor(),
+            child: ListTile(
+              title: Text(
+                category.name,
+                style: TextStyle(
+                  fontSize: 28.0,
                 ),
-              )),
+              ),
+//              trailing: Image.asset(category.pathImage),
+            ),
+          ),
         ),
       ),
     );

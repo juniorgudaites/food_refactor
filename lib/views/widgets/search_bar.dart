@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
-import 'package:food_refactor/views/list_screen.dart';
+import 'package:food_refactor/views/list_recipes.dart';
 
 class Search extends StatelessWidget {
   final TextEditingController _recipe = TextEditingController();
@@ -46,7 +46,7 @@ class Search extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                ListScreen(title:'Receitas Encontradas' ,list: _dao.searchByName(_recipe.text)),
+                ListRecipes(title:'Receitas Encontradas' ,list: _dao.searchByName(_recipe.text)),
           ),
         );
       }

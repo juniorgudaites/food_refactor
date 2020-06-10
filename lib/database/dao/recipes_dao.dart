@@ -1,4 +1,5 @@
 import 'package:food_refactor/database/dao/insert/recipes_insert.dart';
+import 'package:food_refactor/models/ingredient.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:food_refactor/database/app_database.dart';
 import 'package:food_refactor/models/recipe.dart';
@@ -6,6 +7,7 @@ import 'package:food_refactor/models/recipe.dart';
 class RecipesDao {
   // TABLE RECIPES
   static const String tableRecipeSql = 'CREATE TABLE $_tableRecipes('
+//      '$_id INTEGER PRIMARY KEY AUTOINCREMENT, '
       '$_id INTEGER PRIMARY KEY, '
       '$_name TEXT, '
       '$_description TEXT, '
@@ -14,19 +16,6 @@ class RecipesDao {
       '$_category TEXT, '
       '$_favorite INTEGER, '
       '$_pathImage TEXT)';
-
-  static const String insertRecipeSql =
-      'INSERT INTO recipes(id,name,description,ingredients,preparationMode,category, favorite, pathImage) VALUES('
-      '1,'
-      'Bolo de Chocolate,'
-      'Bolo de Chocolate com cobertura de chocolate,'
-      'Farinha, 3 xicaras,'
-      'Asse a 180c,'
-      'bolos,'
-      '0,'
-      'assets/receitas/bolos/bolo_de_chocolate.jpg)';
-
-  //'$_idCategoryRecipe INTEGER CONSTRAINT $_idCategoryRecipe REFERENCES $_tableCategory($_idCategory))';
 
   static const String _tableRecipes = 'recipes';
   static const String _id = 'id';
@@ -47,27 +36,6 @@ class RecipesDao {
     save(RecipesInsert.peDeMoleque);
     save(RecipesInsert.lasanha);
     save(RecipesInsert.pizza);
-  }
-
-  static String insertTable(Recipe recipe){
-     String sql = 'INSERT INTO $_tableRecipes('
-        '$_id,'
-        '$_name,'
-        '$_description,'
-        '$_ingredients,'
-        '$_preparationMode,'
-        '$_category,'
-        '$_favorite, '
-        '$_pathImage) VALUES('
-        '${recipe.id},'
-        '${recipe.name},'
-        '${recipe.description},'
-        '${recipe.listIngredients.toString()},'
-        '${recipe.preparationMode},'
-        '${recipe.category},'
-        '0,'
-        '${recipe.pathImage})';
-    return sql;
   }
 
   // INSERE OBJETO RECIPE NO DATABASE
@@ -96,6 +64,20 @@ class RecipesDao {
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> result =
         await db.query(_tableRecipes, where: _queryLikeSeach(recipe));
+    List<Recipe> recipes = _toList(result);
+    return recipes;
+  }
+
+  Future<List<Recipe>> searchIngredient(
+      List<Ingredient> listIngredients) async {
+    final Database db = await getDatabase();
+    List<Map<String, dynamic>> result;
+    for (Ingredient ingredient in listIngredients) {
+
+        result += await db.query(_tableRecipes,
+            where: "$_ingredients LIKE '%${ingredient.name}%'");
+
+    }
     List<Recipe> recipes = _toList(result);
     return recipes;
   }

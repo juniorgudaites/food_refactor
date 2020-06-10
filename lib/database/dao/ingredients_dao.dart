@@ -1,6 +1,5 @@
-import 'package:food_refactor/database/dao/recipes_dao.dart';
-import 'package:food_refactor/models/category.dart';
-import 'package:food_refactor/models/recipe.dart';
+import 'package:food_refactor/database/dao/insert/ingredients_insert.dart';
+import 'package:food_refactor/models/ingredient.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:food_refactor/database/app_database.dart';
 
@@ -8,21 +7,50 @@ import 'package:food_refactor/database/app_database.dart';
 class IngredientsDao {
 
   // Table Category
-  static const String tableCategorySql = 'CREATE TABLE $_tableIngredient('
+  static const String tableIngredientSql = 'CREATE TABLE $_tableIngredient('
       '$_id INTEGER PRIMARY KEY, '
       '$_name TEXT, '
       '$_idRecipe INTEGER)';
+//      '$_have INTEGER)';
 
   static const String _tableIngredient = 'ingredients';
   static const String _id = 'idIngredient';
   static const String _name = 'nameIngredient';
   static const String _idRecipe = 'idRecipe';
+  static const String _have = 'have';
+
 
   String getNameTableCategory() => _tableIngredient;
 
-  Future<int> save(Category category) async {
+  insert(){
+    save(IngredientsInsert.acucar);
+    save(IngredientsInsert.amendoimTorrado);
+    save(IngredientsInsert.carne);
+    save(IngredientsInsert.cenoura);
+    save(IngredientsInsert.chocolateEmPo);
+    save(IngredientsInsert.farinhaDeTrigo);
+    save(IngredientsInsert.fermento);
+    save(IngredientsInsert.frango);
+    save(IngredientsInsert.leite);
+    save(IngredientsInsert.leiteCondesado);
+    save(IngredientsInsert.manteiga);
+    save(IngredientsInsert.massaDeTomate);
+    save(IngredientsInsert.massaLasanha);
+    save(IngredientsInsert.molhoBolonhesa);
+    save(IngredientsInsert.molhoSaborPizza);
+    save(IngredientsInsert.oleo);
+    save(IngredientsInsert.oregano);
+    save(IngredientsInsert.ovo);
+    save(IngredientsInsert.pimentaDoReino);
+    save(IngredientsInsert.presunto);
+    save(IngredientsInsert.queijoFatiado);
+    save(IngredientsInsert.queijoMussarela);
+    save(IngredientsInsert.sal);
+  }
+
+  Future<int> save(Ingredient ingredient) async {
     final Database db = await getDatabase();
-    Map<String, dynamic> map = _toMap(category);
+    Map<String, dynamic> map = _toMap(ingredient);
     return db.insert(_tableIngredient, map);
   }
 
@@ -31,41 +59,43 @@ class IngredientsDao {
     return db.delete(_tableIngredient);
   }
 
-  Map<String, dynamic> _toMap(Category category) {
+  Map<String, dynamic> _toMap(Ingredient ingredient) {
     final Map<String, dynamic> map = Map();
-    map[_id] = category.id;
-    map[_name] = category.name;
+    map[_id] = ingredient.id;
+    map[_name] = ingredient.name;
+//    map[_have] = ingredient.have;
     return map;
   }
 
-  Future<List<Category>> findAll() async {
+  Future<List<Ingredient>> findAll() async {
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> result = await db.query(_tableIngredient);
-    List<Category> categories = _toList(result);
-    return categories;
+    List<Ingredient> ingredients = _toList(result);
+    return ingredients;
   }
 
-  // DELETAR DEPOIS
-  Future<List<Recipe>> searchCategoryByIdRecipe(int id) async {
-    RecipesDao _daoRecipes = new RecipesDao();
+  // REALIZA BUSCA NO DATABASE PELO NOME
+  Future<List<Ingredient>> searchByName(String ingredient) async {
     final Database db = await getDatabase();
-    final List<Map<String, dynamic>> result = await db.query(
-        _daoRecipes.getNameTableRecipe(), where: "$_daoRecipes = $id%");
-    List<Recipe> recipes = _toList(result);
-    return recipes;
+    final List<Map<String, dynamic>> result =
+    await db.query(_tableIngredient, where: "$_name LIKE '%${ingredient}%'");
+    List<Ingredient> ingredients = _toList(result);
+    return ingredients;
   }
+
 
   List _toList(List<Map<String, dynamic>> result) {
-    final List<Category> categories = List();
+    final List<Ingredient> ingredients = List();
     for (Map<String, dynamic> row in result) {
-      final Category category = Category(
+      final Ingredient ingredient = Ingredient(
           id: row[_id],
           name: row[_name],
-          idRecipe: row[_idRecipe]
+//          listRecipes: row[_idRecipe],
+//          have: row[_have]
       );
-      categories.add(category);
+      ingredients.add(ingredient);
     }
-    return categories;
+    return ingredients;
   }
 
 

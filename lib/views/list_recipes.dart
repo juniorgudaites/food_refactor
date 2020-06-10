@@ -9,17 +9,17 @@ import 'package:food_refactor/views/recipe_details.dart';
 import 'widgets/menu.dart';
 
 
-class ListScreen extends StatefulWidget {
+class ListRecipes extends StatefulWidget {
   Future<List> list;
   String title;
 
-  ListScreen({@required this.title, @required this.list});
+  ListRecipes({@required this.title, @required this.list});
 
   @override
   _ListState createState() => _ListState();
 }
 
-class _ListState extends State<ListScreen> with SingleTickerProviderStateMixin {
+class _ListState extends State<ListRecipes> with SingleTickerProviderStateMixin {
 
   bool isCollapsed = true;
   double screenWidth, screenHeight;

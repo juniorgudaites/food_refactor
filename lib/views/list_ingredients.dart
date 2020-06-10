@@ -3,18 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:food_refactor/components/centered_message.dart';
 import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/components/progress.dart';
+import 'package:food_refactor/database/dao/ingredients_dao.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
+import 'package:food_refactor/models/ingredient.dart';
 import 'package:food_refactor/models/recipe.dart';
-import 'package:food_refactor/views/recipe_details.dart';
+import 'package:food_refactor/views/list_recipes.dart';
+import 'package:food_refactor/views/widgets/menu.dart';
 
+class ListIngredients extends StatefulWidget {
 
-class RecipesList extends StatefulWidget {
+  Future<List> list;
+  String title;
+
+  ListIngredients({@required this.title, @required this.list});
+
   @override
-  _RecipesListState createState() => _RecipesListState();
+  _ListIngredientsState createState() => _ListIngredientsState();
 }
 
-class _RecipesListState extends State<RecipesList> with SingleTickerProviderStateMixin {
-  final RecipesDao _dao = new RecipesDao();
+class _ListIngredientsState extends State<ListIngredients>
+    with SingleTickerProviderStateMixin {
 
   bool isCollapsed = true;
   double screenWidth, screenHeight;
@@ -23,7 +31,6 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
   Animation<double> _scaleAnimation;
   Animation<double> _menuScaleAnimation;
   Animation<Offset> _slideAnimation;
-
 
   @override
   void initState() {
@@ -65,47 +72,12 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
         },
         child: Stack(
           children: <Widget>[
-            menu(context),
+            menu(context, _slideAnimation, _menuScaleAnimation),
             _screen(context),
           ],
         ),
       ),
-    );
-  }
-
-  Widget menu(context) {
-    return SlideTransition(
-      position: _slideAnimation,
-      child: ScaleTransition(
-        scale: _menuScaleAnimation,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Dashboard",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Messages",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Utility Bills",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Funds Transfer",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Branches",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
-              ],
-            ),
-          ),
-        ),
-      ),
+      floatingActionButton: _buttonFilter(),
     );
   }
 
@@ -148,15 +120,15 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
                           });
                         },
                       ),
-                      Text("Receitas",
+                      Text(widget.title,
                           style: TextStyle(fontSize: 24, color: Colors.white)),
                       Icon(Icons.feedback, color: Colors.white),
                     ],
                   ),
                   Container(
-                    height: double.maxFinite,
+                    height: screenHeight,
                     child: _builder(),
-                    ),
+                  ),
                   SizedBox(height: 20),
                 ],
               ),
@@ -168,9 +140,9 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
   }
 
   Widget _builder() {
-    return FutureBuilder<List<Recipe>>(
+    return FutureBuilder<List<Ingredient>>(
       initialData: List(),
-      future: _dao.findAll(),
+      future: widget.list,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -181,17 +153,17 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
           case ConnectionState.active:
             break;
           case ConnectionState.done:
-            final List<Recipe> recipes = snapshot.data;
+            final List<Ingredient> ingredients = snapshot.data;
             return ListView.separated(
+              scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                final Recipe recipe = recipes[index];
-                return _card(context, recipe);
-//                return RecipeItem(recipe);
+                final Ingredient ingredient = ingredients[index];
+                return _checkList(context, ingredient);
               },
               separatorBuilder: (context, index) {
                 return Divider(height: 16);
               },
-              itemCount: recipes.length,
+              itemCount: ingredients.length,
             );
             break;
         }
@@ -200,44 +172,62 @@ class _RecipesListState extends State<RecipesList> with SingleTickerProviderStat
     );
   }
 
-  Widget _card(context,recipe){
-    return SizedBox(
-      height: 80,
-      child: Material(
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => RecipeDetails(recipe),
-              ),
-            );
-          },
-          child: Card(
-            color: listTileColor(),
-            child: ListTile(
-              title: SizedBox(
-                height: 30,
-                child: Text(
-                  recipe.name,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                  ),
-                ),
-              ),
-              subtitle: SizedBox(
-                height: 40,
-                child: Text(
-                  recipe.description,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-              trailing: Image.asset(recipe.pathImage),
-            ),
+  Widget _checkList(context, Ingredient ingredient) {
+    if (ingredient.have) {
+      debugPrint('${ingredient.name}: ${ingredient.have.toString()}');
+    }
+    return Container(
+      color: Colors.white,
+      child: Row(
+        children: <Widget>[
+          Checkbox(
+            onChanged: (bool value) {
+              setState(() {
+                ingredient.have = value;
+              });
+            },
+            value: ingredient.have,
           ),
-        ),
+          Text(
+            ingredient.name,
+            style: TextStyle(color: primaryColor(),
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
+
+  Widget _buttonFilter() {
+    IngredientsDao ingredientsDao = IngredientsDao();
+    RecipesDao recipesDao = RecipesDao();
+    return FloatingActionButton(
+        child: Icon(Icons.search, color: Colors.white, size: 42.0),
+        backgroundColor: primaryGradientColor(),
+        onPressed: () {
+          _showList(context,
+          list: recipesDao.searchIngredient(searchIngredientsHave(ingredientsDao.findAll())),
+          title: 'Lista de Possiveis Receitas');
+        });
+  }
+
+  void _showList(BuildContext context, {Future<List> list, String title}) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ListRecipes(title: title, list: list,),
+      ),
+    );
+  }
+
+  List<Ingredient> searchIngredientsHave(var list) {
+    List<Ingredient> listExit;
+    for (Ingredient ingredient in list) {
+      if (ingredient.have) {
+        listExit.add(ingredient);
+      }
+    }
+    return listExit;
+  }
+
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/database/dao/categories_dao.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
-import 'package:food_refactor/views/list_screen.dart';
+import 'package:food_refactor/views/list_recipes.dart';
 
 Widget menu(context, _slideAnimation, _menuScaleAnimation) {
   RecipesDao _recipesDao = RecipesDao();
@@ -59,7 +59,7 @@ Widget menu(context, _slideAnimation, _menuScaleAnimation) {
 void _showList(BuildContext context, {Future<List> list, String title}) {
   Navigator.of(context).push(
     MaterialPageRoute(
-      builder: (context) => ListScreen(
+      builder: (context) => ListRecipes(
         title: title,
 
         list: list,
