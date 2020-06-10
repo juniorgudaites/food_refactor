@@ -11,7 +11,7 @@ class IngredientsDao {
       '$_id INTEGER PRIMARY KEY, '
       '$_name TEXT, '
       '$_idRecipe INTEGER)';
-//      '$_have INTEGER)';
+//      '$_have TEXT)';
 
   static const String _tableIngredient = 'ingredients';
   static const String _id = 'idIngredient';
@@ -63,7 +63,7 @@ class IngredientsDao {
     final Map<String, dynamic> map = Map();
     map[_id] = ingredient.id;
     map[_name] = ingredient.name;
-//    map[_have] = ingredient.have;
+//    map[_have] = ingredient.have.toString();
     return map;
   }
 
@@ -84,14 +84,16 @@ class IngredientsDao {
   }
 
 
+
+
   List _toList(List<Map<String, dynamic>> result) {
     final List<Ingredient> ingredients = List();
     for (Map<String, dynamic> row in result) {
       final Ingredient ingredient = Ingredient(
           id: row[_id],
           name: row[_name],
-//          listRecipes: row[_idRecipe],
-//          have: row[_have]
+          listRecipes: row[_idRecipe],
+//          have: row[_have]=='true'
       );
       ingredients.add(ingredient);
     }

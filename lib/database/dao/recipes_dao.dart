@@ -68,16 +68,19 @@ class RecipesDao {
     return recipes;
   }
 
-  Future<List<Recipe>> searchIngredient(
-      List<Ingredient> listIngredients) async {
-    final Database db = await getDatabase();
-    List<Map<String, dynamic>> result;
-    for (Ingredient ingredient in listIngredients) {
-
-        result += await db.query(_tableRecipes,
-            where: "$_ingredients LIKE '%${ingredient.name}%'");
-
+  Future<List<Recipe>> searchIngredient(List<Ingredient> list) async{
+    String queryWhere;
+    if (list.length == 1) {
+      queryWhere = "$_ingredients LIKE '%${list[0].name}%'";
+    } else {
+      queryWhere = "$_ingredients LIKE '%${list[0].name}%'";
+      for (int i = 1; i < list.length; i++) {
+        queryWhere += "OR $_ingredients LIKE '%${list[i].name}%'";
+      }
     }
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> result =
+        await db.query(_tableRecipes, where: queryWhere);
     List<Recipe> recipes = _toList(result);
     return recipes;
   }

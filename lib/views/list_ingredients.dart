@@ -6,11 +6,15 @@ import 'package:food_refactor/components/progress.dart';
 import 'package:food_refactor/database/dao/ingredients_dao.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/models/ingredient.dart';
-import 'package:food_refactor/models/recipe.dart';
 import 'package:food_refactor/views/list_recipes.dart';
 import 'package:food_refactor/views/widgets/menu.dart';
 
+
+
 class ListIngredients extends StatefulWidget {
+  IngredientsDao ingredientsDao = IngredientsDao();
+
+  static final List<Ingredient> listIngredientsHave = [];
 
   Future<List> list;
   String title;
@@ -23,7 +27,6 @@ class ListIngredients extends StatefulWidget {
 
 class _ListIngredientsState extends State<ListIngredients>
     with SingleTickerProviderStateMixin {
-
   bool isCollapsed = true;
   double screenWidth, screenHeight;
   final Duration duration = const Duration(milliseconds: 300);
@@ -41,6 +44,8 @@ class _ListIngredientsState extends State<ListIngredients>
         Tween<double>(begin: 0.5, end: 1).animate(_controller);
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
         .animate(_controller);
+
+//    ListIngredients.listIngredientsHave.clear();
   }
 
   @override
@@ -51,9 +56,7 @@ class _ListIngredientsState extends State<ListIngredients>
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     screenHeight = size.height;
     screenWidth = size.width;
 
@@ -174,8 +177,13 @@ class _ListIngredientsState extends State<ListIngredients>
 
   Widget _checkList(context, Ingredient ingredient) {
     if (ingredient.have) {
+      ListIngredients.listIngredientsHave.add(ingredient);
       debugPrint('${ingredient.name}: ${ingredient.have.toString()}');
     }
+    if (!ingredient.have && ListIngredients.listIngredientsHave.contains(ingredient)) {
+      ListIngredients.listIngredientsHave.remove(ingredient);
+    }
+
     return Container(
       color: Colors.white,
       child: Row(
@@ -190,7 +198,8 @@ class _ListIngredientsState extends State<ListIngredients>
           ),
           Text(
             ingredient.name,
-            style: TextStyle(color: primaryColor(),
+            style: TextStyle(
+                color: primaryColor(),
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold),
           ),
@@ -200,34 +209,26 @@ class _ListIngredientsState extends State<ListIngredients>
   }
 
   Widget _buttonFilter() {
-    IngredientsDao ingredientsDao = IngredientsDao();
     RecipesDao recipesDao = RecipesDao();
     return FloatingActionButton(
         child: Icon(Icons.search, color: Colors.white, size: 42.0),
         backgroundColor: primaryGradientColor(),
         onPressed: () {
           _showList(context,
-          list: recipesDao.searchIngredient(searchIngredientsHave(ingredientsDao.findAll())),
-          title: 'Lista de Possiveis Receitas');
+              list: recipesDao
+                  .searchIngredient(ListIngredients.listIngredientsHave),
+              title: 'Receitas em Potencial');
         });
   }
 
   void _showList(BuildContext context, {Future<List> list, String title}) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ListRecipes(title: title, list: list,),
+        builder: (context) => ListRecipes(
+          title: title,
+          list: list,
+        ),
       ),
     );
   }
-
-  List<Ingredient> searchIngredientsHave(var list) {
-    List<Ingredient> listExit;
-    for (Ingredient ingredient in list) {
-      if (ingredient.have) {
-        listExit.add(ingredient);
-      }
-    }
-    return listExit;
-  }
-
 }

@@ -5,7 +5,6 @@ import 'package:food_refactor/database/dao/ingredients_dao.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
 import 'package:food_refactor/views/list_categories.dart';
 import 'package:food_refactor/views/list_ingredients.dart';
-import 'package:food_refactor/views/list_ingredients_old.dart';
 import 'package:food_refactor/views/list_recipes.dart';
 import 'package:food_refactor/views/widgets/menu.dart';
 import 'package:food_refactor/views/widgets/futureItem.dart';
