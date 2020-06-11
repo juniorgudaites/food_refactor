@@ -4,16 +4,21 @@ class CategoriesInsert {
   static final Category bolos = Category(
     id: 1,
     name: 'Bolos',
-    pathImage: 'assets/receitas/bolos/bolos.png',
+    pathImage: 'assets/receitas/bolos/bolos.jpg',
   );
   static final Category doces = Category(
     id: 2,
     name: 'Doces',
-    pathImage: 'assets/receitas/doces/doces.png',
+    pathImage: 'assets/receitas/doces/doces.jpg',
   );
   static final Category massas = Category(
     id: 3,
     name: 'Massas',
-    pathImage: 'assets/receitas/massas/massas.png',
+    pathImage: 'assets/receitas/massas/massas.jpg',
+  );
+  static final Category bebidas = Category(
+    id: 4,
+    name: 'Bebidas',
+    pathImage: 'assets/receitas/massas/bebidas.jpg',
   );
 }

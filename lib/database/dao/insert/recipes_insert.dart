@@ -86,7 +86,7 @@ class RecipesInsert {
           Ingredient(name: 'Margarina', quantity: '3 Colheres(Sopa)')
               .toString() +
           '\n' +
-          Ingredient(name: 'Leite Condesado', quantity: '1 Lata').toString(),
+          Ingredient(name: 'Leite condensado', quantity: '1 Lata').toString(),
       preparationMode: 'Colocar na panela o amendoim, o açúcar e a margarina.\n' +
           'Levar ao fogo, mexendo sempre.\n' +
           'Quando começar a formar uma calda, coloque o leite condensado.\n' +
@@ -165,4 +165,53 @@ class RecipesInsert {
       category: CategoriesInsert.massas.name,
       pathImage: 'assets/receitas/massas/pizza.jpg',
       id: 6);
+
+  static final Recipe cafeCremoso = Recipe(
+      name: 'Café Cremoso',
+      description: 'Receita de Creme de Café',
+      listIngredients: Ingredient(name: 'Café Solúvel', quantity: '50g')
+          .toString() +
+          '\n' +
+          Ingredient(name: 'Açúcar', quantity: '2 xícaras').toString() +
+          '\n' +
+          Ingredient(name: 'Água', quantity: '1 xícara')
+              .toString(),
+      preparationMode: 'Junte os ingredientes em uma batedeira e bata durante 15 minutos\n' +
+          'Guarde na geladeira em um pote fechado.\n' +
+          'Você pode servir da seguinte forma:\n' +
+          'Adicione uma colher do creme em uma xícara de café, leite quente ou frio\n',
+      category: CategoriesInsert.bebidas.name,
+      pathImage: 'assets/receitas/bebidas/cafe_cremoso.jpg',
+      id: 7);
+
+  static final Recipe milkShake = Recipe(
+      name: 'Milk Shake',
+      description: 'Faça você mesmo um milk-shake, rápido e fácil',
+      listIngredients: Ingredient(name: 'Sorvete', quantity: '3 Bolas')
+          .toString() +
+          '\n' +
+          Ingredient(name: 'Leite', quantity: '2 xícaras').toString() +
+          '\n' +
+          Ingredient(name: 'Essência de Baunilha', quantity: '1 colher de chá')
+              .toString(),
+      preparationMode: 'Bata todos os ingredientes no liquidificador.\n' +
+          'Coloque o milk shake na taça e sirva-se.\n',
+      category: CategoriesInsert.bebidas.name,
+      pathImage: 'assets/receitas/bebidas/milk_shake.jpg',
+      id: 8);
+
+  static final Recipe vitaminaMorango = Recipe(
+      name: 'Vitamina de Morango',
+      description: 'Receita de Vitamina de Morango',
+      listIngredients: Ingredient(name: 'Leite Gelado', quantity: '700ml')
+          .toString() +
+          '\n' +
+          Ingredient(name: 'Morango', quantity: '1 caixa').toString() +
+          '\n' +
+          Ingredient(name: 'Leite Condensando', quantity: '1/2 lata')
+              .toString(),
+      preparationMode: 'Junte os ingredientes no liquidificador e sirva em um copo ou taça.\n',
+      category: CategoriesInsert.bebidas.name,
+      pathImage: 'assets/receitas/bebidas/vitamina_de_morango.jpg',
+      id: 9);
 }

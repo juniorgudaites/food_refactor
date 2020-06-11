@@ -189,7 +189,6 @@ class _ListCategoriesState extends State<ListCategories>
                   fontSize: 28.0,
                 ),
               ),
-//              trailing: Image.asset(category.pathImage),
             ),
           ),
         ),

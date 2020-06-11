@@ -38,6 +38,7 @@ class IngredientsDao {
     save(IngredientsInsert.massaLasanha);
     save(IngredientsInsert.molhoBolonhesa);
     save(IngredientsInsert.molhoSaborPizza);
+    save(IngredientsInsert.morango);
     save(IngredientsInsert.oleo);
     save(IngredientsInsert.oregano);
     save(IngredientsInsert.ovo);
@@ -46,6 +47,10 @@ class IngredientsDao {
     save(IngredientsInsert.queijoFatiado);
     save(IngredientsInsert.queijoMussarela);
     save(IngredientsInsert.sal);
+    save(IngredientsInsert.sorvete);
+    save(IngredientsInsert.essenciaBaunilha);
+    save(IngredientsInsert.cafeSoluvel);
+    save(IngredientsInsert.agua);
   }
 
   Future<int> save(Ingredient ingredient) async {

@@ -1,5 +1,6 @@
 import 'package:food_refactor/database/dao/insert/recipes_insert.dart';
 import 'package:food_refactor/models/ingredient.dart';
+import 'package:food_refactor/views/list_ingredients.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:food_refactor/database/app_database.dart';
 import 'package:food_refactor/models/recipe.dart';
@@ -36,6 +37,9 @@ class RecipesDao {
     save(RecipesInsert.peDeMoleque);
     save(RecipesInsert.lasanha);
     save(RecipesInsert.pizza);
+    save(RecipesInsert.cafeCremoso);
+    save(RecipesInsert.milkShake);
+    save(RecipesInsert.vitaminaMorango);
   }
 
   // INSERE OBJETO RECIPE NO DATABASE
@@ -82,6 +86,7 @@ class RecipesDao {
     final List<Map<String, dynamic>> result =
         await db.query(_tableRecipes, where: queryWhere);
     List<Recipe> recipes = _toList(result);
+    ListIngredients.listIngredientsHave.clear();
     return recipes;
   }
 

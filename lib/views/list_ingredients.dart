@@ -45,7 +45,7 @@ class _ListIngredientsState extends State<ListIngredients>
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
         .animate(_controller);
 
-//    ListIngredients.listIngredientsHave.clear();
+
   }
 
   @override
@@ -85,6 +85,7 @@ class _ListIngredientsState extends State<ListIngredients>
   }
 
   Widget _screen(context) {
+    ListIngredients.listIngredientsHave.clear();
     return AnimatedPositioned(
       duration: duration,
       top: 0,
@@ -129,7 +130,7 @@ class _ListIngredientsState extends State<ListIngredients>
                     ],
                   ),
                   Container(
-                    height: screenHeight,
+                    height: screenHeight-80,
                     child: _builder(),
                   ),
                   SizedBox(height: 20),

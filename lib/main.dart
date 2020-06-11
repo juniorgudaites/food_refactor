@@ -18,9 +18,9 @@ class FoodRefactor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-//    recipesDao.insert();
-//    categoriesDao.insert();
-//    ingredientsDao.insert();
+    recipesDao.insert();
+    categoriesDao.insert();
+    ingredientsDao.insert();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

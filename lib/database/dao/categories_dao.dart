@@ -26,6 +26,7 @@ class CategoriesDao {
     save(CategoriesInsert.bolos);
     save(CategoriesInsert.doces);
     save(CategoriesInsert.massas);
+    save(CategoriesInsert.bebidas);
   }
 
   Future<int> save(Category category) async {

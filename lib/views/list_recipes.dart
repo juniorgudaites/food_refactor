@@ -122,7 +122,7 @@ class _ListState extends State<ListRecipes> with SingleTickerProviderStateMixin 
                     ],
                   ),
                   Container(
-                    height: double.maxFinite,
+                    height: screenHeight-80,
                     child: _builder(),
                     ),
                   SizedBox(height: 20),
