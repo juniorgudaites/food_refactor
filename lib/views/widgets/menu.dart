@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:food_refactor/components/colors.dart';
 import 'package:food_refactor/database/dao/categories_dao.dart';
+import 'package:food_refactor/database/dao/ingredients_dao.dart';
 import 'package:food_refactor/database/dao/recipes_dao.dart';
+import 'package:food_refactor/views/list_categories.dart';
+import 'package:food_refactor/views/list_ingredients.dart';
 import 'package:food_refactor/views/list_recipes.dart';
 
 Widget menu(context, _slideAnimation, _menuScaleAnimation) {
   RecipesDao _recipesDao = RecipesDao();
   CategoriesDao _categoriesDao = CategoriesDao();
+  IngredientsDao _ingredientsDao = IngredientsDao();
 
   return SlideTransition(
     position: _slideAnimation,
@@ -31,15 +35,13 @@ Widget menu(context, _slideAnimation, _menuScaleAnimation) {
               menuItem(
                 text: 'Categorias',
                 icon: Icons.view_list,
-                onClick: () => _showList(context,
-                    title: 'Categorias', list: _categoriesDao.findAll()),
+                onClick: () => _showCategoriesList(context,title: 'Categorias', list: _categoriesDao.findAll()),
               ),
               SizedBox(height: 10),
               menuItem(
                 text: 'Ingredients',
                 icon: Icons.filter_list,
-                onClick: () => _showList(context,
-                    title: 'Ingredientes', list: _recipesDao.findAll()),
+                onClick: () => _showIngredientsList(context,title:'Ingredientes', list: _ingredientsDao.findAll()),
               ),
               SizedBox(height: 10),
               menuItem(
@@ -61,9 +63,24 @@ void _showList(BuildContext context, {Future<List> list, String title}) {
     MaterialPageRoute(
       builder: (context) => ListRecipes(
         title: title,
-
         list: list,
       ),
+    ),
+  );
+}
+
+void _showCategoriesList(BuildContext context,{Future<List> list,String title}){
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => ListCategories(title: title, list: list,),
+    ),
+  );
+}
+
+void _showIngredientsList(BuildContext context,{Future<List> list,String title}){
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => ListIngredients(title: title, list: list,),
     ),
   );
 }
